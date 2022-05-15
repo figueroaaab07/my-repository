@@ -1,24 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   function createHtmlBase() {
-    let divElement = document.createElement('div');
-    divElement.className = "wrapper";
-    divElement.appendChild(document.querySelector("h1"));
-    let h2Element = document.createElement("h2");
-    h2Element.innerText = "Take a sample from more than 490,000 works, throughout the world and history, and and let yourself be carried away by the feelings they inspire"
-    divElement.appendChild(h2Element);
-    let selectorDiv = document.createElement('div');
-    selectorDiv.className = "custom-select";
-    divElement.appendChild(selectorDiv);
-    let selectorLabel = document.createElement('label');
-    selectorLabel.innerText = "Please Select Department:  ";
-    selectorLabel.htmlFor = "selector";
-    selectorDiv.appendChild(selectorLabel);
+    let divHeader = document.createElement('div');
+    divHeader.className = "header";
+    let pHeader = document.createElement("p");
+    pHeader.innerText = "Take a sample from more than 490,000 works, throughout the world and history, and and let yourself be carried away by the feelings they inspire"
+    divHeader.appendChild(document.querySelector("h1"));
+    divHeader.appendChild(pHeader);
+    let divSelector = document.createElement('div');
+    divSelector.className = "custom-select";
+    let labelSelector = document.createElement('label');
+    labelSelector.innerText = "Please Select Department:  ";
+    labelSelector.htmlFor = "selector";
     let selectorElement = document.createElement('select');
     selectorElement.id = "selector";
-    selectorDiv.appendChild(selectorElement);
-    divElement.appendChild(document.querySelector("#object-image-container"));
-    document.querySelector("body").appendChild(divElement);
+    divSelector.appendChild(labelSelector);
+    divSelector.appendChild(selectorElement);
+    let imageContainer = document.querySelector("#object-image-container");
+    imageContainer.className = "row";
+    let bodyElement = document.querySelector("body");
+    bodyElement.appendChild(divHeader);
+    bodyElement.appendChild(divSelector);
+    bodyElement.appendChild(imageContainer);
   }
   createHtmlBase();
 
@@ -41,18 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderOneObject(objectData) {
-    let figureElement = document.createElement('figure');
-    figureElement.className = "figure";
+    let divColumnImg = document.createElement('div');
+    divColumnImg.className = "column";
     let imageElement = document.createElement('img');
     imageElement.className = "image";
     imageElement.src = objectData["primaryImage"];
-    imageElement.alt = objectData["objectName"]
-    let figcaptionElement = document.createElement('figcaption');
-    figcaptionElement.className = "caption";
-    figcaptionElement.innerText = `${objectData["artistDisplayName"]}\n${objectData["objectName"]}, ${objectData["objectEndDate"]}\n${objectData["medium"]}`
-    figureElement.appendChild(imageElement);
-    figureElement.appendChild(figcaptionElement);
-    document.querySelector("#object-image-container").appendChild(figureElement);
+    imageElement.alt = objectData["objectName"];
+    imageElement.style = "width:100%";
+    let pImage = document.createElement('p');
+    pImage.innerText = `${objectData["artistDisplayName"]}\n${objectData["objectName"]}, ${objectData["objectEndDate"]}\n${objectData["medium"]}`
+    divColumnImg.appendChild(imageElement);
+    divColumnImg.appendChild(pImage);
+    document.querySelector("#object-image-container").appendChild(divColumnImg);
   }
 
   function renderImagesByDepartment(departmentId = "1") {
