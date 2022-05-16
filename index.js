@@ -8,15 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
     divHeader.appendChild(document.querySelector("h1"));
     divHeader.appendChild(pHeader);
     let divSelector = document.createElement('div');
-    divSelector.className = "custom-select";
-    let labelSelector = document.createElement('label');
-    labelSelector.innerText = "Please Select Department:  ";
-    labelSelector.htmlFor = "selector";
-    let selectorElement = document.createElement('select');
-    selectorElement.id = "selector";
-    divSelector.appendChild(labelSelector);
-    divSelector.appendChild(selectorElement);
-    let imageContainer = document.querySelector("#object-image-container");
+    divSelector.className = "dropdown";
+    let aSelector = document.createElement("a");
+    aSelector.className = "btn btn-secondary dropdown-toggle";
+    aSelector.setAttribute("role", "button");
+    aSelector.id = "dropdownMenuLink";
+    aSelector.setAttribute("data-bs-toggle", "dropdown");
+    aSelector.setAttribute("aria-expanded", "false");
+    aSelector.textContent = "Please Select Department  ";
+    let ulMenu = document.createElement('ul');
+    ulMenu.className = "dropdown-menu";
+    ulMenu.id = "selector";
+    ulMenu.setAttribute("aria-labelledby", "dropdownMenuLink");
+    divSelector.appendChild(aSelector);
+    divSelector.appendChild(ulMenu);
+     let imageContainer = document.querySelector("#object-image-container");
     imageContainer.className = "row";
     let bodyElement = document.querySelector("body");
     bodyElement.appendChild(divHeader);
@@ -30,10 +36,15 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(departmentsData => departmentsData["departments"].forEach(department => {
       let selectorElement = document.querySelector('#selector');
-      let optionElement = document.createElement('option');
+      let liElement = document.createElement('li');
+      let optionElement = document.createElement('a');
+      optionElement.className = "dropdown-item";
+      optionElement.href = "#";
       optionElement.innerText = department["displayName"];
       optionElement.id = department["departmentId"];
-      selectorElement.appendChild(optionElement);
+      // optionElement.addEventListener("click", optionCb)
+      liElement.appendChild(optionElement);
+      selectorElement.appendChild(liElement);
     }))
   }
   populateSelector();
@@ -69,7 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function optionCb(event) {
     event.preventDefault();
     document.querySelector("#object-image-container").innerHTML = "";
-    let selection = event.target.selectedIndex + 1;
+    // let selection = event.target.selectedIndex + 1;
+    let selection = event.target.id;
     console.log(selection);
     renderImagesByDepartment(selection.toString());
   }
